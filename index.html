@@ -1,0 +1,2321 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TPO 코디 스튜디오</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#28324a;
+  --muted:#68748d;
+  --purple:#7764d9;
+  --purple-dark:#5946b5;
+  --lavender:#eeeaff;
+  --pink:#fff0f5;
+  --mint:#e8faf3;
+  --line:#e4e5ef;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Noto Sans KR',sans-serif;
+  color:var(--ink);
+  background:linear-gradient(125deg,#f5f0ff,#fff7f8 52%,#eaf9f6);
+  min-height:100vh;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,
+select:focus-visible,textarea:focus-visible{
+  outline:3px solid #aa9aff;
+  outline-offset:3px;
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:17px 5%;
+  background:#ffffffd9;
+  border-bottom:1px solid var(--line);
+}
+.brand{font-weight:900;color:var(--purple);font-size:19px}
+.brand span{font-size:23px}
+.tag{
+  color:var(--muted);
+  background:#f3f1fc;
+  border-radius:25px;
+  padding:7px 12px;
+  font-size:12px;
+}
+main{max-width:1220px;margin:auto;padding:26px 18px 60px}
+.screen{display:none}
+.screen.active{display:block;animation:appear .25s ease}
+@keyframes appear{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(29px,5vw,46px);line-height:1.35}
+h2{font-size:clamp(23px,3vw,30px)}
+h3{font-size:17px}
+p{line-height:1.75}
+.subtitle{color:var(--muted);font-size:14px}
+.card{
+  background:white;
+  border:1px solid #eceaf3;
+  border-radius:23px;
+  padding:23px;
+  box-shadow:0 8px 28px #35305d0b;
+}
+.hero{
+  text-align:center;
+  padding:55px 24px;
+  border-radius:32px;
+  background:linear-gradient(140deg,#ece5ff,#fff1f6,#e6f8f3);
+}
+.hero-icon{font-size:65px;margin-bottom:15px}
+.hero .subtitle{font-size:16px}
+.instructions{
+  max-width:590px;
+  margin:30px auto;
+  background:#ffffffb5;
+  padding:20px 25px;
+  border-radius:19px;
+  text-align:left;
+  line-height:2.1;
+}
+.btn{
+  border:0;
+  border-radius:14px;
+  padding:13px 23px;
+  background:var(--purple);
+  color:white;
+  font-weight:800;
+  min-height:46px;
+  transition:.15s;
+}
+.btn:hover{background:var(--purple-dark);transform:translateY(-1px)}
+.btn.secondary{background:#f0edfc;color:var(--purple-dark)}
+.btn.secondary:hover{background:#e5dfff}
+.btn.light{background:white;color:var(--purple-dark)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  margin-top:25px;
+}
+.stepbar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:24px;
+}
+.step{
+  font-size:12px;
+  color:#7b8193;
+  background:#fff;
+  padding:7px 11px;
+  border-radius:18px;
+}
+.step.current{background:var(--purple);color:white;font-weight:800}
+.step.done{background:#e3f5ee;color:#227b61}
+.two-col{
+  display:grid;
+  grid-template-columns:minmax(270px,390px) minmax(0,1fr);
+  gap:22px;
+  align-items:start;
+}
+.avatar-box{
+  background:linear-gradient(160deg,#f4efff,#fff9f7);
+  border:1px solid #e8e4f7;
+  border-radius:23px;
+  padding:18px;
+  text-align:center;
+}
+.avatar-box.sticky{position:sticky;top:14px}
+.avatar-box svg{width:100%;max-width:340px;height:auto}
+.avatar-label{color:var(--muted);font-size:12px}
+.notice{
+  padding:14px 17px;
+  background:var(--mint);
+  border-radius:14px;
+  color:#286c59;
+  font-size:13px;
+  line-height:1.7;
+}
+.section-title{
+  font-size:15px;
+  font-weight:800;
+  margin:18px 0 10px;
+}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{
+  border:1.5px solid #e2dfed;
+  background:white;
+  color:#424960;
+  padding:10px 14px;
+  border-radius:12px;
+  font-weight:600;
+  font-size:13px;
+}
+.choice.selected{
+  border-color:var(--purple);
+  background:#eeeaff;
+  color:#5542b1;
+}
+.skin-choice{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  border:3px solid white;
+  box-shadow:0 0 0 1px #ddd;
+}
+.skin-choice.selected{box-shadow:0 0 0 3px var(--purple)}
+.mission-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+.mission{
+  min-height:155px;
+  border:2px solid #e9e6f1;
+  background:white;
+  border-radius:20px;
+  padding:20px 12px;
+  text-align:center;
+}
+.mission:hover,.mission.selected{
+  border-color:var(--purple);
+  background:#f2eeff;
+}
+.mission .emoji{font-size:36px;display:block;margin-bottom:11px}
+.mission strong{display:block;font-size:15px}
+.mission small{display:block;color:var(--muted);margin-top:7px}
+.mission-banner{
+  background:#eeeaff;
+  padding:13px 16px;
+  border-radius:15px;
+  color:#5946b5;
+  font-weight:800;
+  margin-bottom:18px;
+}
+.piece{
+  margin-bottom:15px;
+  background:#fcfbff;
+  border:1px solid #eae7f4;
+  border-radius:17px;
+  padding:15px;
+}
+.piece h3{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+.piece h3 span{
+  color:#8172ca;
+  background:#eeeaff;
+  padding:4px 9px;
+  border-radius:9px;
+  font-size:11px;
+}
+.piece-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{margin-bottom:10px}
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  color:#606b83;
+  margin-bottom:6px;
+}
+select,input[type=text],textarea{
+  width:100%;
+  border:1.5px solid #e0dfeb;
+  border-radius:11px;
+  background:white;
+  padding:11px;
+  color:var(--ink);
+  min-width:0;
+}
+input[type=color]{
+  width:100%;
+  height:41px;
+  padding:4px;
+  border:1px solid #e0dfeb;
+  border-radius:10px;
+  background:white;
+}
+textarea{resize:vertical;min-height:175px;line-height:1.8}
+.effect{
+  margin-top:10px;
+  background:#fff7df;
+  border-left:4px solid #f0bd56;
+  border-radius:12px;
+  padding:14px;
+  text-align:left;
+  font-size:12px;
+  line-height:1.9;
+}
+.effect strong{color:#8d6022}
+.effect-list{
+  margin:0;
+  padding-left:18px;
+}
+.effect-list li{margin:3px 0}
+.effect-guide{
+  background:#f4f0ff;
+  border-radius:14px;
+  padding:15px;
+  color:#55479b;
+  font-size:13px;
+  line-height:1.8;
+}
+.rule-list{display:grid;gap:10px}
+.rule{
+  padding:15px;
+  background:#f8f8fc;
+  border:1px solid #e8e6ef;
+  border-radius:13px;
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+.rule.pass{background:#effaf5;border-color:#d3ede0}
+.rule.tip{background:#fff9ed;border-color:#f6e7bd}
+.rule .symbol{font-size:22px}
+.rule strong{font-size:14px}
+.rule p{margin:5px 0 0;font-size:12px;color:#606b83}
+.stars{color:#e8a735;font-size:39px;letter-spacing:3px}
+.score{text-align:center;margin:17px auto 25px}
+.score strong{font-size:19px}
+.checklist{display:grid;gap:11px;margin-top:17px}
+.check{
+  padding:13px;
+  border:1px solid #e6e6ee;
+  border-radius:12px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  font-size:13px;
+}
+.check.ok{background:#edfaf3;color:#236f4e}
+.check.wait{background:#faf9fc;color:#646b7d}
+.counter{text-align:right;color:var(--muted);font-size:12px;margin-top:6px}
+.final-card{
+  max-width:800px;
+  margin:auto;
+  border-radius:28px;
+  background:white;
+  border:1px solid #e6e3f1;
+  padding:27px;
+  box-shadow:0 12px 40px #30305512;
+}
+.final-header{
+  background:linear-gradient(110deg,#eee8ff,#ffeef4);
+  border-radius:17px;
+  padding:20px;
+}
+.final-content{
+  display:grid;
+  grid-template-columns:42% 58%;
+  gap:16px;
+  margin-top:20px;
+}
+.final-avatar{
+  background:#f5f1ff;
+  border-radius:19px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.final-avatar svg{width:100%;max-width:290px}
+.final-details{min-width:0;padding-right:16px}
+.final-description{
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  background:#f8f7fc;
+  border-radius:12px;
+  padding:13px;
+  min-height:115px;
+  font-size:13px;
+  line-height:1.8;
+}
+footer{
+  text-align:center;
+  padding:23px;
+  font-size:12px;
+  color:#8790a2;
+}
+@media(max-width:760px){
+  main{padding:17px 12px 35px}
+  .two-col{grid-template-columns:1fr}
+  .avatar-box.sticky{position:static}
+  .avatar-box svg{max-width:250px}
+  .mission-grid{grid-template-columns:1fr 1fr}
+  .card{padding:17px}
+  .hero{padding:39px 16px}
+  .step{font-size:11px;padding:6px 9px}
+}
+@media(max-width:420px){
+  .mission-grid{grid-template-columns:1fr 1fr;gap:9px}
+  .mission{padding:13px 7px;min-height:135px}
+  .mission strong{font-size:13px}
+  .piece-grid{grid-template-columns:1fr}
+  .final-content{grid-template-columns:1fr}
+  .final-avatar svg{max-width:200px}
+  .final-details{padding-right:0}
+  .stars{font-size:29px}
+  .tag{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><span>✦</span> TPO 코디 스튜디오</div>
+  <div class="tag">중학교 기술·가정 | 의생활 디자인</div>
+</header>
+
+<main>
+
+<section id="screen1" class="screen active">
+  <div class="hero">
+    <div class="hero-icon">👕 ✦ 🎨</div>
+    <h1>나만의 스타일을 만드는<br>TPO 코디 스튜디오</h1>
+    <p class="subtitle">선 · 색 · 무늬 · 재질을 활용한 패션 디자인 체험</p>
+    <div class="instructions">
+      <div>① 나만의 아바타를 만들고 TPO 미션을 선택해요.</div>
+      <div>② 옷의 디자인 요소를 바꾸며 코디를 완성해요.</div>
+      <div>③ 상황에 맞는 옷차림인지 점검하고 코디 카드를 저장해요.</div>
+    </div>
+    <button class="btn" onclick="go(2)">시작하기 →</button>
+    <p style="margin-top:24px;font-size:12px;color:#777">
+      사진이나 카메라는 사용하지 않아요.
+      모든 디자인 선택을 존중해요.
+    </p>
+  </div>
+</section>
+
+<section id="screen2" class="screen">
+  <div id="steps2"></div>
+  <h2>01. 나만의 아바타 만들기</h2>
+  <p class="subtitle">얼굴형, 피부톤, 머리 모양, 체형을 자유롭게 선택해 보세요.</p>
+
+  <div class="two-col">
+    <div class="avatar-box">
+      <div id="avatar2"></div>
+      <div class="avatar-label">선택할 때마다 아바타가 바뀌어요.</div>
+    </div>
+
+    <div class="card">
+      <div class="notice">
+        모든 선택에는 정답이 없어요.<br>
+        나다운 모습으로 만들어 보세요.
+      </div>
+
+      <div class="section-title">얼굴형</div>
+      <div class="choices" id="faceChoices"></div>
+
+      <div class="section-title">피부톤</div>
+      <div class="choices" id="skinChoices"></div>
+
+      <div class="section-title">머리 모양</div>
+      <div class="choices" id="hairChoices"></div>
+
+      <div class="section-title">체형</div>
+      <div class="choices" id="bodyChoices"></div>
+
+      <div class="actions">
+        <button class="btn secondary" onclick="go(1)">이전</button>
+        <button class="btn" onclick="go(3)">미션 고르기 →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen3" class="screen">
+  <div id="steps3"></div>
+  <h2>02. 오늘의 TPO 미션</h2>
+  <p class="subtitle">
+    T는 Time(때), P는 Place(장소), O는 Occasion(상황)을 뜻해요.
+  </p>
+
+  <div class="card">
+    <h3>어떤 상황에 어울리는 옷차림을 계획할까요?</h3>
+    <div class="mission-grid" id="missionGrid"></div>
+
+    <div class="actions">
+      <button class="btn secondary" onclick="randomMission()">
+        🎲 무작위 미션 뽑기
+      </button>
+    </div>
+
+    <div id="missionInfo" class="notice" style="margin-top:22px"></div>
+
+    <div class="actions">
+      <button class="btn secondary" onclick="go(2)">이전</button>
+      <button class="btn" onclick="go(4)">코디 시작하기 →</button>
+    </div>
+  </div>
+</section>
+
+<section id="screen4" class="screen">
+  <div id="steps4"></div>
+  <h2>03. 나만의 코디 디자인</h2>
+  <p class="subtitle">
+    옷의 종류와 디자인 요소를 선택해 보세요.
+    선택하면 아바타에 바로 반영돼요.
+  </p>
+
+  <div class="two-col">
+    <div class="avatar-box sticky">
+      <div class="mission-banner" id="missionBanner"></div>
+      <div id="avatar4"></div>
+      <div class="avatar-label">MY FASHION STUDIO</div>
+      <div id="effects" class="effect" aria-live="polite"></div>
+    </div>
+
+    <div>
+      <div class="effect-guide" style="margin-bottom:16px">
+        <strong>디자인 탐구!</strong><br>
+        같은 옷이라도 색, 무늬, 재질을 바꾸면
+        다른 시각적 효과와 느낌을 만들 수 있어요.
+      </div>
+
+      <div class="card" id="clothingPanel"></div>
+
+      <div class="actions">
+        <button class="btn secondary" onclick="go(3)">미션 다시 고르기</button>
+        <button class="btn" onclick="checkTPO();go(5)">
+          TPO 점검하기 →
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen5" class="screen">
+  <div id="steps5"></div>
+  <h2>04. 나의 코디 TPO 점검</h2>
+  <p class="subtitle">
+    이 옷차림이 선택한 상황에서 어떤 점을 배려하는지 살펴보세요.
+  </p>
+
+  <div class="two-col">
+    <div class="avatar-box">
+      <div id="avatar5"></div>
+    </div>
+
+    <div class="card">
+      <h3 id="checkMission"></h3>
+      <div class="score">
+        <div class="stars" id="stars" aria-label="TPO 적합도"></div>
+        <strong id="scoreText"></strong>
+        <p class="subtitle" style="margin-top:10px">
+          적합도는 아바타의 외모가 아닌
+          상황별 옷차림 선택을 점검한 결과예요.
+        </p>
+      </div>
+
+      <div id="rules" class="rule-list"></div>
+
+      <div class="notice" style="margin-top:18px" id="checkAdvice"></div>
+
+      <div class="actions">
+        <button class="btn secondary" onclick="go(4)">코디 수정하기</button>
+        <button class="btn" onclick="go(6)">나의 코디 설명하기 →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen6" class="screen">
+  <div id="steps6"></div>
+  <h2>05. 나의 코디 설명하기</h2>
+
+  <div class="two-col">
+    <div class="avatar-box">
+      <div id="avatar6"></div>
+    </div>
+
+    <div class="card">
+      <h3>왜 이렇게 코디했나요?</h3>
+      <p>
+        <strong>선·색·무늬·재질 중 2가지 이상</strong>을 골라,
+        왜 그렇게 입혔는지 써 보세요.
+      </p>
+
+      <div class="effect-guide" style="margin-bottom:17px">
+        <strong>생각을 돕는 질문</strong><br>
+        • 어떤 디자인 요소를 사용했나요?<br>
+        • 그 요소는 어떤 느낌이나 효과를 주나요?<br>
+        • 선택한 TPO 상황을 어떻게 고려했나요?
+      </div>
+
+      <textarea id="description"
+        placeholder="예: 산으로 가는 체험학습이라 활동하기 편한 긴바지를 선택했다. 파란색은 시원한 느낌을 주며, 기능성 소재는 야외 활동에 도움이 된다고 생각했다."
+        oninput="updateChecklist()"></textarea>
+
+      <div class="counter" id="charCount">0자</div>
+
+      <h3 style="margin-top:23px">자기점검 체크리스트</h3>
+      <div class="checklist">
+        <div id="checkWords" class="check wait"></div>
+        <div id="checkLength" class="check wait"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn secondary" onclick="go(5)">이전</button>
+        <button id="finishBtn" class="btn" disabled
+          onclick="go(7)">코디 카드 만들기 →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen7" class="screen">
+  <div id="steps7"></div>
+  <h2 style="text-align:center">06. 나의 코디 카드 완성!</h2>
+  <p class="subtitle" style="text-align:center">
+    옷차림에 담긴 나의 생각을 한 장의 카드로 기록해요.
+  </p>
+
+  <div class="final-card" id="finalCard">
+    <div class="final-header">
+      <div style="font-size:12px;font-weight:800;color:#7764d9">
+        MY TPO STYLE CARD
+      </div>
+      <h2 style="margin:7px 0">나의 코디 디자인</h2>
+      <div id="finalMission"></div>
+    </div>
+
+    <div class="final-content">
+      <div class="final-avatar" id="avatar7"></div>
+
+      <div class="final-details">
+        <div class="field">
+          <label for="studentName">이름 또는 활동 별명</label>
+          <input id="studentName" type="text"
+            maxlength="30" placeholder="이름을 입력하세요"
+            oninput="state.name=this.value">
+        </div>
+
+        <div class="section-title">TPO 적합도</div>
+        <div id="finalStars" class="stars" style="font-size:25px"></div>
+        <div id="finalScore" class="subtitle"></div>
+
+        <div class="section-title">나의 코디 설명</div>
+        <div id="finalDescription" class="final-description"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="savePNG()">🖼 이미지로 저장 (PNG)</button>
+    <button class="btn secondary" onclick="resetAll()">처음부터 다시</button>
+  </div>
+  <p class="subtitle" style="text-align:center;margin-top:15px">
+    이미지를 저장하면 수업 결과물로 제출할 수 있어요.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  TPO FASHION STUDIO · 나의 개성을 존중하는 의생활 수업
+</footer>
+
+<script>
+"use strict";
+
+/* ===============================
+   1. 기본 자료
+================================ */
+
+const COLORS=[
+  ["빨강","#e65361"],
+  ["주황","#f28b50"],
+  ["노랑","#f5ca58"],
+  ["연두","#a2cc62"],
+  ["초록","#4aab83"],
+  ["청록","#44b6b6"],
+  ["파랑","#4c8fd8"],
+  ["보라","#8460bd"],
+  ["분홍","#ee91b5"],
+  ["갈색","#987154"],
+  ["흰색","#ffffff"],
+  ["회색","#92949e"],
+  ["검정","#34343d"],
+  ["남색","#303e68"]
+];
+
+const PATTERNS=[
+  ["plain","무지"],
+  ["vertical","세로 줄무늬"],
+  ["horizontal","가로 줄무늬"],
+  ["diagonal","사선 줄무늬"],
+  ["check","체크"],
+  ["dots","물방울"]
+];
+
+const MATERIALS=[
+  ["cotton","면"],
+  ["linen","마"],
+  ["wool","울 니트"],
+  ["denim","데님"],
+  ["silk","실크"],
+  ["functional","기능성 소재"],
+  ["leather","가죽"]
+];
+
+const MISSIONS=[
+  {
+    title:"결혼식 하객 (낮)",
+    icon:"💐",
+    time:"낮",
+    place:"결혼식장",
+    occasion:"결혼식에 참석하여 축하하기",
+    hint:"축하의 마음과 행사 분위기, 신랑·신부에 대한 배려를 생각해 보세요."
+  },
+  {
+    title:"조문 (장례식)",
+    icon:"🕊️",
+    time:"조문 시간",
+    place:"장례식장",
+    occasion:"고인과 유가족에게 애도를 표현하기",
+    hint:"차분한 색과 단정한 옷차림으로 유가족을 배려해 보세요."
+  },
+  {
+    title:"산으로 가는 체험학습",
+    icon:"⛰️",
+    time:"낮",
+    place:"산과 야외 활동 장소",
+    occasion:"걷고 관찰하는 체험학습",
+    hint:"오래 걸을 때의 편안함과 안전을 생각해 보세요."
+  },
+  {
+    title:"학생회 선거 발표",
+    icon:"🎤",
+    time:"발표 시간",
+    place:"학교 강당 또는 교실",
+    occasion:"학생들 앞에서 공약 발표하기",
+    hint:"발표에 집중할 수 있는 단정하고 편안한 옷차림을 생각해 보세요."
+  },
+  {
+    title:"친구 생일 파티",
+    icon:"🎉",
+    time:"파티 시간",
+    place:"친구들과 모이는 장소",
+    occasion:"생일을 축하하고 즐겁게 시간 보내기",
+    hint:"자신만의 개성을 자유롭게 표현하고 이유를 설명해 보세요."
+  },
+  {
+    title:"여름 바닷가 가족여행",
+    icon:"🏖️",
+    time:"여름 낮",
+    place:"바닷가",
+    occasion:"가족과 해변에서 쉬고 활동하기",
+    hint:"더운 날씨, 통기성, 걷기 편한 신발을 고려해 보세요."
+  }
+];
+
+const SKINS=[
+  "#f4d8c3",
+  "#eac3a3",
+  "#d9a983",
+  "#bb8566",
+  "#98644e",
+  "#704735"
+];
+
+const OPTIONS={
+  top:[
+    ["tshirt","티셔츠"],
+    ["shirt","셔츠"],
+    ["knit","니트"],
+    ["hoodie","후드티"]
+  ],
+  bottom:[
+    ["pants","긴바지"],
+    ["shorts","반바지"],
+    ["skirt","치마"]
+  ],
+  dress:[
+    ["none","없음"],
+    ["dress","원피스"]
+  ],
+  outer:[
+    ["none","없음"],
+    ["jacket","재킷"],
+    ["cardigan","가디건"]
+  ],
+  shoes:[
+    ["sneakers","운동화"],
+    ["formal","구두"],
+    ["sandals","샌들"],
+    ["slippers","슬리퍼"]
+  ],
+  neck:[
+    ["round","라운드넥"],
+    ["v","V넥"],
+    ["collar","셔츠 칼라"]
+  ]
+};
+
+const defaultPieces=()=>({
+  top:{
+    type:"tshirt",color:"#4c8fd8",
+    pattern:"plain",material:"cotton",neck:"round"
+  },
+  bottom:{
+    type:"pants",color:"#303e68",
+    pattern:"plain",material:"denim"
+  },
+  dress:{
+    type:"none",color:"#ee91b5",
+    pattern:"plain",material:"cotton"
+  },
+  outer:{
+    type:"none",color:"#92949e",
+    pattern:"plain",material:"cotton"
+  },
+  shoes:{
+    type:"sneakers",color:"#ffffff",
+    pattern:"plain",material:"cotton"
+  }
+});
+
+const initialState=()=>({
+  face:"round",
+  skin:1,
+  hair:"short",
+  body:"medium",
+  mission:0,
+  pieces:defaultPieces(),
+  description:"",
+  name:"",
+  score:5,
+  rules:[]
+});
+
+let state=initialState();
+let currentStep=1;
+
+/* ===============================
+   2. 공통 화면 이동
+================================ */
+
+function go(step){
+  if(step===5)checkTPO();
+  if(step===7){
+    updateChecklist();
+    if(document.getElementById("finishBtn").disabled)return;
+  }
+
+  currentStep=step;
+
+  document.querySelectorAll(".screen").forEach(el=>{
+    el.classList.remove("active");
+  });
+
+  document.getElementById("screen"+step).classList.add("active");
+
+  if(step===2)renderAvatarEditor();
+  if(step===3)renderMissions();
+  if(step===4)renderClothing();
+  if(step===5)renderCheck();
+  if(step===6){
+    document.getElementById("description").value=state.description;
+    updateChecklist();
+  }
+  if(step===7)renderFinal();
+
+  renderSteps();
+  window.scrollTo({top:0,behavior:"instant"});
+}
+
+function renderSteps(){
+  const names=[
+    "아바타","미션","코디","TPO 점검","설명","완성"
+  ];
+
+  for(let screen=2;screen<=7;screen++){
+    const target=document.getElementById("steps"+screen);
+    const current=screen-2;
+
+    target.innerHTML=
+      '<div class="stepbar">'+
+      names.map((name,i)=>{
+        let cl="step";
+        if(i===current)cl+=" current";
+        if(i<current)cl+=" done";
+        return `<span class="${cl}">${i+1}. ${name}</span>`;
+      }).join("")+
+      '</div>';
+  }
+}
+
+/* ===============================
+   3. 아바타 선택
+================================ */
+
+function drawChoices(id,values,key){
+  document.getElementById(id).innerHTML=
+    values.map(([value,label])=>`
+      <button type="button"
+        class="choice ${state[key]===value?"selected":""}"
+        data-avatar="${key}"
+        data-value="${value}">
+        ${label}
+      </button>
+    `).join("");
+}
+
+function renderAvatarEditor(){
+  drawChoices("faceChoices",[
+    ["round","둥근형"],
+    ["slim","갸름한형"],
+    ["square","각진형"],
+    ["long","긴형"]
+  ],"face");
+
+  drawChoices("hairChoices",[
+    ["short","짧은 머리"],
+    ["bob","단발 머리"],
+    ["long","긴 머리"],
+    ["curly","곱슬 머리"]
+  ],"hair");
+
+  drawChoices("bodyChoices",[
+    ["narrow","좁은 어깨형"],
+    ["medium","기본형"],
+    ["wide","넓은 어깨형"]
+  ],"body");
+
+  document.getElementById("skinChoices").innerHTML=
+    SKINS.map((color,i)=>`
+      <button type="button"
+        class="skin-choice ${state.skin===i?"selected":""}"
+        style="background:${color}"
+        data-avatar="skin"
+        data-value="${i}"
+        aria-label="피부톤 ${i+1}"
+        title="피부톤 ${i+1}">
+      </button>
+    `).join("");
+
+  updateAvatars();
+}
+
+document.addEventListener("click",e=>{
+  const button=e.target.closest("[data-avatar]");
+  if(!button)return;
+
+  const key=button.dataset.avatar;
+  const value=button.dataset.value;
+
+  state[key]=key==="skin"?Number(value):value;
+  renderAvatarEditor();
+});
+
+/* ===============================
+   4. 미션 선택
+================================ */
+
+function renderMissions(){
+  document.getElementById("missionGrid").innerHTML=
+    MISSIONS.map((m,i)=>`
+      <button type="button"
+        class="mission ${i===state.mission?"selected":""}"
+        onclick="selectMission(${i})">
+        <span class="emoji">${m.icon}</span>
+        <strong>${m.title}</strong>
+        <small>${m.place}</small>
+      </button>
+    `).join("");
+
+  const m=MISSIONS[state.mission];
+
+  document.getElementById("missionInfo").innerHTML=`
+    <strong>선택한 미션: ${m.title}</strong><br>
+    때(T): ${m.time}<br>
+    장소(P): ${m.place}<br>
+    상황(O): ${m.occasion}<br><br>
+    💡 ${m.hint}
+  `;
+}
+
+function selectMission(index){
+  state.mission=index;
+  renderMissions();
+}
+
+function randomMission(){
+  let next=Math.floor(Math.random()*MISSIONS.length);
+
+  if(MISSIONS.length>1 && next===state.mission){
+    next=(next+1+Math.floor(
+      Math.random()*(MISSIONS.length-1)
+    ))%MISSIONS.length;
+  }
+
+  selectMission(next);
+}
+
+/* ===============================
+   5. 의복 선택 UI
+================================ */
+
+function selectHTML(options,value,attr){
+  return `<select ${attr}>`+
+    options.map(([v,label])=>
+      `<option value="${v}" ${v===value?"selected":""}>
+        ${label}
+      </option>`
+    ).join("")+
+    `</select>`;
+}
+
+function getColorName(hex){
+  return COLORS.find(c=>c[1]===hex)?.[0]||"선택 색";
+}
+
+function pieceEditor(key,title){
+  const piece=state.pieces[key];
+  const isHidden=(key==="bottom" &&
+    state.pieces.dress.type==="dress");
+
+  if(isHidden)return "";
+
+  const typeOptions=key==="top"?OPTIONS.top:
+    key==="bottom"?OPTIONS.bottom:
+    key==="dress"?OPTIONS.dress:
+    key==="outer"?OPTIONS.outer:OPTIONS.shoes;
+
+  let html=`
+    <div class="piece">
+      <h3>${title}<span>디자인 변경</span></h3>
+
+      <div class="field">
+        <label>옷 종류</label>
+        ${selectHTML(typeOptions,piece.type,
+          `data-piece="${key}" data-prop="type"`)}
+      </div>
+  `;
+
+  if(piece.type==="none"){
+    html+="</div>";
+    return html;
+  }
+
+  if(key==="top"){
+    html+=`
+      <div class="field">
+        <label>네크라인</label>
+        ${selectHTML(OPTIONS.neck,piece.neck,
+          `data-piece="top" data-prop="neck"`)}
+      </div>
+    `;
+  }
+
+  html+=`
+    <div class="piece-grid">
+      <div class="field">
+        <label>색</label>
+        ${selectHTML(COLORS,piece.color,
+          `data-piece="${key}" data-prop="color"`)}
+      </div>
+      <div class="field">
+        <label>무늬</label>
+        ${selectHTML(PATTERNS,piece.pattern,
+          `data-piece="${key}" data-prop="pattern"`)}
+      </div>
+      <div class="field">
+        <label>재질</label>
+        ${selectHTML(MATERIALS,piece.material,
+          `data-piece="${key}" data-prop="material"`)}
+      </div>
+      <div class="field">
+        <label>직접 색 선택</label>
+        <input type="color" value="${piece.color}"
+          data-piece="${key}" data-prop="color"
+          aria-label="${title} 직접 색 선택">
+      </div>
+    </div>
+  `;
+
+  html+="</div>";
+  return html;
+}
+
+function renderClothing(){
+  document.getElementById("missionBanner").textContent=
+    MISSIONS[state.mission].icon+" "+
+    MISSIONS[state.mission].title;
+
+  let html="";
+  html+=pieceEditor("top","상의");
+  html+=pieceEditor("bottom","하의");
+  html+=pieceEditor("dress","원피스");
+  html+=pieceEditor("outer","겉옷");
+  html+=pieceEditor("shoes","신발");
+
+  document.getElementById("clothingPanel").innerHTML=html;
+
+  updateAvatars();
+  updateEffects();
+}
+
+document.addEventListener("change",e=>{
+  const el=e.target.closest("[data-piece]");
+  if(!el)return;
+
+  const key=el.dataset.piece;
+  const prop=el.dataset.prop;
+
+  state.pieces[key][prop]=el.value;
+
+  renderClothing();
+});
+
+document.addEventListener("input",e=>{
+  if(!e.target.matches('input[type="color"][data-piece]'))return;
+
+  const key=e.target.dataset.piece;
+  state.pieces[key].color=e.target.value;
+  updateAvatars();
+  updateEffects();
+
+  const select=document.querySelector(
+    `select[data-piece="${key}"][data-prop="color"]`
+  );
+
+  if(select){
+    const value=e.target.value.toLowerCase();
+    if(!Array.from(select.options).some(o=>o.value===value)){
+      select.add(new Option("직접 선택한 색",value));
+    }
+    select.value=value;
+  }
+});
+
+/* ===============================
+   6. 디자인 요소 효과
+================================ */
+
+function colorGroup(hex){
+  const c=getColorName(hex);
+
+  if(["흰색","회색","검정"].includes(c))return "neutral";
+  if(["빨강","주황","노랑","분홍","갈색"].includes(c))return "warm";
+  if(["초록","청록","파랑","남색","보라"].includes(c))return "cool";
+
+  const r=parseInt(hex.slice(1,3),16);
+  const g=parseInt(hex.slice(3,5),16);
+  const b=parseInt(hex.slice(5,7),16);
+
+  if(Math.max(r,g,b)-Math.min(r,g,b)<28)return "neutral";
+  return r>b*1.12 || (r>g && g>b)?"warm":"cool";
+}
+
+function effectFor(piece){
+  const result=[];
+
+  const patterns={
+    plain:"무지: 무늬보다 옷의 선과 색이 강조돼요.",
+    vertical:"세로선: 시선이 위아래로 이어져 길어 보이는 효과가 있어요.",
+    horizontal:"가로선: 시선이 좌우로 퍼져 넓고 안정적인 느낌을 줘요.",
+    diagonal:"사선: 움직임이 느껴져 활동적이고 경쾌한 인상을 만들어요.",
+    check:"체크: 선이 교차해 규칙적인 리듬감이 느껴져요.",
+    dots:"물방울: 반복되는 원형이 경쾌하고 부드러운 느낌을 줘요."
+  };
+
+  result.push(patterns[piece.pattern]);
+
+  const group=colorGroup(piece.color);
+
+  if(group==="warm"){
+    result.push("난색: 따뜻하고 활동적인 느낌을 주며, 상대적으로 커 보이는 효과가 있어요.");
+  }else if(group==="cool"){
+    result.push("한색: 차분하고 시원한 느낌을 줘요.");
+  }else{
+    result.push("무채색: 차분하고 단정한 분위기를 연출하기 쉬워요.");
+  }
+
+  const materialEffects={
+    cotton:"면: 부드럽고 일상 활동에 편안하게 활용할 수 있어요.",
+    linen:"마: 통기성이 좋고 자연스러운 구김이 특징이에요.",
+    wool:"울 니트: 도톰한 조직이 부피감과 포근한 느낌을 만들어요.",
+    denim:"데님: 탄탄한 조직으로 실용적이고 캐주얼한 느낌을 줘요.",
+    silk:"실크: 광택과 부드러운 표면이 화려한 느낌과 시각적인 부피감을 줄 수 있어요.",
+    functional:"기능성 소재: 소재에 따라 신축성, 발수성, 통기성 등을 갖춰 활동에 도움을 줘요.",
+    leather:"가죽: 매끈한 표면과 광택이 강한 질감의 대비를 만들어요."
+  };
+
+  result.push(materialEffects[piece.material]);
+
+  if(piece.neck){
+    const neckEffects={
+      round:"라운드넥: 둥근 선이 부드러운 인상을 만들어요.",
+      v:"V넥: 아래로 향하는 선이 얼굴과 목을 길어 보이게 하는 시각적 효과가 있어요.",
+      collar:"셔츠 칼라: 각진 선과 겹친 구조가 정돈된 느낌을 줘요."
+    };
+    result.push(neckEffects[piece.neck]);
+  }
+
+  return result;
+}
+
+function updateEffects(){
+  const keys=["top","bottom","dress","outer","shoes"];
+  const names={
+    top:"상의",bottom:"하의",dress:"원피스",
+    outer:"겉옷",shoes:"신발"
+  };
+
+  let html="<strong>💬 디자인 요소 효과</strong>";
+
+  for(const key of keys){
+    const piece=state.pieces[key];
+    if(piece.type==="none")continue;
+    if(key==="bottom" && state.pieces.dress.type==="dress")continue;
+    if(key==="top" && state.pieces.dress.type==="dress")continue;
+
+    html+=`<div style="margin-top:9px"><b>${names[key]}</b></div>`;
+    html+="<ul class='effect-list'>";
+
+    for(const effect of effectFor(piece)){
+      html+="<li>"+effect+"</li>";
+    }
+    html+="</ul>";
+  }
+
+  html+=`
+    <p style="margin:9px 0 0">
+      ※ 효과는 시각적 디자인 원리이며,
+      사람의 외모에 대한 평가가 아니에요.
+      무늬의 크기와 배치에 따라 효과는 달라질 수 있어요.
+    </p>
+  `;
+
+  const target=document.getElementById("effects");
+  if(target)target.innerHTML=html;
+}
+
+/* ===============================
+   7. SVG 아바타 생성
+================================ */
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function shade(hex,factor){
+  const h=hex.replace("#","");
+  if(h.length!==6)return hex;
+
+  const rgb=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16));
+  const out=rgb.map(n=>{
+    const v=factor>=0?n+(255-n)*factor:n*(1+factor);
+    return Math.round(Math.max(0,Math.min(255,v)));
+  });
+
+  return "#"+out.map(v=>v.toString(16).padStart(2,"0")).join("");
+}
+
+function clothDefs(){
+  const keys=["top","bottom","dress","outer","shoes"];
+  let defs="";
+
+  for(const key of keys){
+    const p=state.pieces[key];
+    const id="pat-"+key;
+    let pattern="";
+
+    const dark=shade(p.color,-.36);
+    const light=shade(p.color,.45);
+
+    if(p.pattern==="vertical"){
+      pattern=`<path d="M4 0V16 M12 0V16"
+        stroke="${dark}" stroke-width="1.8" opacity=".65"/>`;
+    }
+    if(p.pattern==="horizontal"){
+      pattern=`<path d="M0 4H16 M0 12H16"
+        stroke="${dark}" stroke-width="1.8" opacity=".65"/>`;
+    }
+    if(p.pattern==="diagonal"){
+      pattern=`<path d="M-8 8L8 -8 M0 16L16 0 M8 24L24 8"
+        stroke="${dark}" stroke-width="2" opacity=".62"/>`;
+    }
+    if(p.pattern==="check"){
+      pattern=`<path d="M0 6H20 M0 16H20 M6 0V20 M16 0V20"
+        stroke="${dark}" stroke-width="1.7" opacity=".60"/>`;
+    }
+    if(p.pattern==="dots"){
+      pattern=`<circle cx="5" cy="5" r="2.1"
+        fill="${light}" stroke="${dark}" stroke-width=".4"/>
+        <circle cx="15" cy="15" r="2.1"
+        fill="${light}" stroke="${dark}" stroke-width=".4"/>`;
+    }
+
+    defs+=`
+      <pattern id="${id}" patternUnits="userSpaceOnUse"
+        width="${p.pattern==="check"?20:16}"
+        height="${p.pattern==="check"?20:16}">
+        ${pattern}
+      </pattern>
+    `;
+
+    let texture="";
+    if(p.material==="linen"){
+      texture=`<path d="M0 5H24 M5 0V24 M17 0V24"
+        stroke="${light}" stroke-width=".7" opacity=".35"/>`;
+    }
+    if(p.material==="wool"){
+      texture=`<path d="M0 4Q3 0 6 4T12 4
+        M0 12Q3 8 6 12T12 12"
+        fill="none" stroke="${dark}" stroke-width="1"
+        opacity=".35"/>`;
+    }
+    if(p.material==="denim"){
+      texture=`<path d="M-6 6L6 -6 M0 12L12 0 M6 18L18 6"
+        stroke="${light}" stroke-width=".65" opacity=".35"/>`;
+    }
+    if(p.material==="silk" || p.material==="leather"){
+      texture=`<path d="M4 0L0 20 M13 0L9 20"
+        stroke="${light}" stroke-width="3"
+        opacity="${p.material==="silk"?.48:.32}"/>`;
+    }
+    if(p.material==="functional"){
+      texture=`<path d="M0 7H18 M9 0V18"
+        stroke="${light}" stroke-width=".45" opacity=".28"/>`;
+    }
+    if(p.material==="cotton"){
+      texture=`<circle cx="3" cy="3" r=".55"
+        fill="${light}" opacity=".4"/>`;
+    }
+
+    defs+=`
+      <pattern id="tex-${key}" patternUnits="userSpaceOnUse"
+        width="18" height="18">
+        ${texture}
+      </pattern>
+    `;
+  }
+
+  return defs;
+}
+
+function garment(path,key,extra=""){
+  const p=state.pieces[key];
+
+  return `
+    <path d="${path}" fill="${p.color}"
+      stroke="${shade(p.color,-.25)}" stroke-width="1.7"
+      stroke-linejoin="round"/>
+    <path d="${path}" fill="url(#pat-${key})"/>
+    <path d="${path}" fill="url(#tex-${key})"/>
+    ${extra}
+  `;
+}
+
+function faceSVG(){
+  const shapes={
+    round:"M125 83 C125 45 195 45 195 83 C195 121 180 139 160 139 C140 139 125 121 125 83Z",
+    slim:"M129 76 C131 43 190 43 191 76 C193 109 178 135 160 144 C142 135 127 109 129 76Z",
+    square:"M130 57 Q160 42 190 57 L190 118 Q160 151 130 118Z",
+    long:"M133 63 C133 34 187 34 187 63 L187 123 Q160 155 133 123Z"
+  };
+
+  const skin=SKINS[state.skin];
+
+  const face=`
+    <path d="${shapes[state.face]}"
+      fill="${skin}" stroke="${shade(skin,-.15)}" stroke-width="1.2"/>
+    <circle cx="144" cy="94" r="2.8" fill="#383544"/>
+    <circle cx="176" cy="94" r="2.8" fill="#383544"/>
+    <path d="M153 115 Q160 120 167 115"
+      stroke="#a76664" stroke-width="2"
+      fill="none" stroke-linecap="round"/>
+    <path d="M159 96 L157 105 Q160 107 163 105"
+      fill="none" stroke="${shade(skin,-.19)}"
+      stroke-width="1.2"/>
+  `;
+
+  return face;
+}
+
+function hairBack(){
+  const c="#342a36";
+
+  if(state.hair==="long"){
+    return `<path d="M123 65 Q120 25 160 29 Q204 22 199 76
+      L204 177 Q187 187 177 168 L143 168
+      Q128 185 116 173Z" fill="${c}"/>`;
+  }
+
+  if(state.hair==="bob"){
+    return `<path d="M124 72 Q123 28 160 27
+      Q200 29 197 74 L195 150
+      Q177 159 168 144 L147 144
+      Q132 157 123 148Z" fill="${c}"/>`;
+  }
+
+  if(state.hair==="curly"){
+    let s="";
+    for(let i=0;i<9;i++){
+      const a=Math.PI*1.07+(Math.PI*.88*i/8);
+      const x=160+37*Math.cos(a);
+      const y=80+41*Math.sin(a);
+      s+=`<circle cx="${x}" cy="${y}" r="13" fill="${c}"/>`;
+    }
+    return s;
+  }
+
+  return `<path d="M124 80 Q116 28 159 30
+    Q203 25 196 81 L187 65 Q163 47 140 65Z"
+    fill="${c}"/>`;
+}
+
+function hairFront(){
+  const c="#342a36";
+
+  if(state.hair==="curly"){
+    return `<circle cx="136" cy="57" r="13" fill="${c}"/>
+      <circle cx="151" cy="49" r="13" fill="${c}"/>
+      <circle cx="168" cy="48" r="13" fill="${c}"/>
+      <circle cx="184" cy="57" r="13" fill="${c}"/>
+      <circle cx="125" cy="78" r="11" fill="${c}"/>
+      <circle cx="195" cy="78" r="11" fill="${c}"/>`;
+  }
+
+  if(state.hair==="long"){
+    return `<path d="M124 86 Q119 28 160 29
+      Q195 27 198 82 L186 74
+      Q179 60 169 57 Q148 75 125 78Z"
+      fill="${c}"/>`;
+  }
+
+  if(state.hair==="bob"){
+    return `<path d="M124 87 Q120 30 159 31
+      Q200 31 198 88 L185 72
+      Q167 67 152 57 Q140 77 124 87Z"
+      fill="${c}"/>`;
+  }
+
+  return `<path d="M125 78 Q118 31 160 33
+    Q199 30 194 76
+    Q180 62 171 55 Q150 76 125 78Z"
+    fill="${c}"/>`;
+}
+
+function topSVG(){
+  const p=state.pieces.top;
+  const type=p.type;
+
+  const bodyPath=type==="hoodie"?
+    "M128 171 L119 178 L103 230 L121 239 L130 216 L129 293 Q160 303 191 293 L190 216 L199 239 L217 230 L201 178 L190 171 L177 163 L143 163Z":
+    "M129 171 L114 179 L100 224 L118 235 L129 211 L128 286 Q160 298 192 286 L191 211 L202 235 L220 224 L206 179 L191 171 L178 164 L142 164Z";
+
+  let extra="";
+
+  if(type==="shirt"){
+    extra+=`
+      <path d="M145 164L160 185L175 164
+        M160 185V286" fill="none"
+        stroke="${shade(p.color,-.27)}" stroke-width="1.6"/>
+      <path d="M142 163L160 185L151 197L137 175Z
+        M178 163L160 185L169 197L183 175Z"
+        fill="${shade(p.color,.18)}"
+        stroke="${shade(p.color,-.18)}" stroke-width="1"/>
+      <circle cx="160" cy="211" r="2" fill="${shade(p.color,-.35)}"/>
+      <circle cx="160" cy="235" r="2" fill="${shade(p.color,-.35)}"/>
+    `;
+  }else if(type==="hoodie"){
+    extra+=`
+      <path d="M140 163 Q160 203 180 163
+        L193 176 Q182 209 160 210
+        Q138 209 127 176Z"
+        fill="${shade(p.color,-.15)}"
+        stroke="${shade(p.color,-.25)}"/>
+      <path d="M151 191L150 220 M169 191L170 220"
+        stroke="#f7f3eb" stroke-width="2.2"/>
+      <path d="M140 255Q160 249 180 255L181 278
+        Q160 285 139 278Z"
+        fill="none" stroke="${shade(p.color,-.25)}"
+        stroke-width="1.7"/>
+    `;
+  }else if(type==="knit"){
+    extra+=`
+      <path d="M130 275 Q160 280 190 275
+        M130 280Q160 285 190 280"
+        fill="none" stroke="${shade(p.color,-.25)}"
+        opacity=".4" stroke-width="2"/>
+    `;
+  }
+
+  if(type!=="hoodie"){
+    if(p.neck==="round"){
+      extra+=`<path d="M143 164Q160 190 177 164"
+        fill="none" stroke="${shade(p.color,-.29)}"
+        stroke-width="3"/>`;
+    }else if(p.neck==="v"){
+      extra+=`<path d="M141 164L160 198L179 164"
+        fill="${SKINS[state.skin]}"
+        stroke="${shade(p.color,-.30)}"
+        stroke-width="2"/>`;
+    }else if(type!=="shirt"){
+      extra+=`
+        <path d="M142 163L160 186L151 197L136 174Z
+          M178 163L160 186L169 197L184 174Z"
+          fill="${shade(p.color,.26)}"
+          stroke="${shade(p.color,-.23)}"/>
+      `;
+    }
+  }
+
+  return garment(bodyPath,"top",extra);
+}
+
+function bottomSVG(){
+  const p=state.pieces.bottom;
+
+  if(p.type==="skirt"){
+    return garment(
+      "M129 281 L191 281 L211 381 Q160 397 109 381Z",
+      "bottom",
+      `<path d="M131 286H189" stroke="${shade(p.color,-.28)}"
+        stroke-width="2"/>
+       <path d="M139 300L129 375 M181 300L191 375"
+        stroke="${shade(p.color,-.21)}" opacity=".4"/>`
+    );
+  }
+
+  if(p.type==="shorts"){
+    return garment(
+      "M128 281H192L192 340L166 341L160 315L154 341L128 340Z",
+      "bottom",
+      `<path d="M160 285V316"
+        stroke="${shade(p.color,-.3)}" stroke-width="1.5"/>`
+    );
+  }
+
+  const path="M128 282 H192 L198 451 L167 451 L160 335 L153 451 L122 451Z";
+
+  return garment(path,"bottom",
+    `<path d="M160 285V333 M135 296L136 430
+      M185 296L184 430"
+      fill="none" stroke="${shade(p.color,-.25)}"
+      opacity=".35" stroke-width="1.5"/>`
+  );
+}
+
+function dressSVG(){
+  return garment(
+    "M142 162L127 171L105 219L120 233L133 207L126 282L93 403Q160 424 227 403L194 282L187 207L200 233L215 219L193 171L178 162Q160 184 142 162Z",
+    "dress",
+    `<path d="M127 282Q160 290 193 282"
+      fill="none" stroke="${shade(state.pieces.dress.color,-.25)}"
+      stroke-width="2"/>
+     <path d="M143 166Q160 190 177 166"
+      fill="none" stroke="${shade(state.pieces.dress.color,-.3)}"
+      stroke-width="2.5"/>`
+  );
+}
+
+function outerSVG(){
+  const p=state.pieces.outer;
+  if(p.type==="none")return "";
+
+  const left="M127 169L111 180L94 252L113 260L129 214L126 299L153 302L156 187Z";
+  const right="M193 169L209 180L226 252L207 260L191 214L194 299L167 302L164 187Z";
+
+  let extra="";
+
+  if(p.type==="jacket"){
+    extra=`
+      <path d="M128 170L156 187L145 209L135 198L139 218L154 231
+        M192 170L164 187L175 209L185 198L181 218L166 231"
+        fill="none" stroke="${shade(p.color,-.32)}"
+        stroke-width="2"/>
+      <path d="M128 278H151 M169 278H192"
+        stroke="${shade(p.color,-.3)}" stroke-width="2"/>
+    `;
+  }else{
+    extra=`
+      <path d="M151 188L151 299 M169 188L169 299"
+        stroke="${shade(p.color,-.22)}" stroke-width="3"/>
+      <path d="M132 269H150 M170 269H188"
+        stroke="${shade(p.color,-.23)}" stroke-width="1.5"/>
+    `;
+  }
+
+  return garment(left,"outer")+
+    garment(right,"outer",extra);
+}
+
+function shoesSVG(){
+  const p=state.pieces.shoes;
+  const skin=SKINS[state.skin];
+
+  const left="M121 441L152 441L151 471Q133 482 108 470L112 459Z";
+  const right="M168 441L199 441L208 470Q183 482 169 471Z";
+
+  if(p.type==="sandals"){
+    return `
+      <path d="${left} M${""}0 0" fill="${skin}"/>
+      <path d="${right}" fill="${skin}"/>
+      <path d="M111 463L150 463 M115 454L149 454
+        M171 463L207 463 M171 454L202 454"
+        stroke="${p.color}" stroke-width="7"/>
+      <path d="M108 470Q130 482 151 470
+        M169 470Q188 482 208 470"
+        stroke="${shade(p.color,-.25)}" fill="none"
+        stroke-width="4"/>
+    `;
+  }
+
+  if(p.type==="slippers"){
+    return `
+      <path d="${left}" fill="${skin}"/>
+      <path d="${right}" fill="${skin}"/>
+      <path d="M111 461L151 461L150 470Q129 477 109 467Z
+        M169 461L206 461L209 469Q187 477 169 470Z"
+        fill="${p.color}" stroke="${shade(p.color,-.3)}"/>
+      <path d="M111 461L151 461 M169 461L206 461"
+        stroke="${shade(p.color,.28)}" stroke-width="3"/>
+    `;
+  }
+
+  let extra="";
+
+  if(p.type==="sneakers"){
+    extra=`
+      <path d="M108 469Q130 479 151 469
+        M169 469Q189 479 208 469"
+        stroke="#eeeeee" stroke-width="5"
+        fill="none"/>
+      <path d="M122 451L143 451M120 457L144 457
+        M177 451L199 451M176 457L201 457"
+        stroke="${shade(p.color,-.3)}"
+        stroke-width="1.8" opacity=".6"/>
+    `;
+  }else{
+    extra=`
+      <path d="M112 465Q132 472 151 465
+        M169 465Q188 472 205 465"
+        stroke="${shade(p.color,-.4)}"
+        stroke-width="2.5" fill="none"/>
+    `;
+  }
+
+  return garment(left,"shoes")+
+    garment(right,"shoes",extra);
+}
+
+function avatarSVG(){
+  const skin=SKINS[state.skin];
+
+  const sx={
+    narrow:.87,
+    medium:1,
+    wide:1.13
+  }[state.body];
+
+  const shapeGroupStart=
+    `<g transform="translate(160 0) scale(${sx} 1) translate(-160 0)">`;
+
+  let clothes="";
+
+  if(state.pieces.dress.type==="dress"){
+    clothes=dressSVG();
+  }else{
+    clothes=bottomSVG()+topSVG();
+  }
+
+  clothes+=outerSVG();
+
+  return `
+  <svg xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 320 510"
+    role="img"
+    aria-label="직접 선택한 얼굴형과 의복으로 만든 SVG 아바타">
+
+    <defs>
+      ${clothDefs()}
+    </defs>
+
+    <ellipse cx="160" cy="486" rx="89" ry="12"
+      fill="#dcd4ed" opacity=".55"/>
+
+    ${hairBack()}
+
+    ${shapeGroupStart}
+
+      <!-- 다리와 팔 -->
+      <path d="M133 281L159 281L151 456L124 456Z"
+        fill="${skin}"/>
+      <path d="M162 281L188 281L196 456L169 456Z"
+        fill="${skin}"/>
+
+      <path d="M127 173Q109 181 103 211
+        L87 305Q86 324 100 326
+        Q111 323 112 309L136 213Z"
+        fill="${skin}"/>
+
+      <path d="M193 173Q211 181 217 211
+        L233 305Q234 324 220 326
+        Q209 323 208 309L184 213Z"
+        fill="${skin}"/>
+
+      <path d="M146 129H174L177 169H143Z"
+        fill="${skin}"/>
+
+      <!-- 옷 -->
+      ${clothes}
+
+      <!-- 신발 -->
+      ${shoesSVG()}
+
+    </g>
+
+    <!-- 얼굴 -->
+    ${faceSVG()}
+    ${hairFront()}
+
+  </svg>`;
+}
+
+function updateAvatars(){
+  for(const id of ["avatar2","avatar4","avatar5","avatar6","avatar7"]){
+    const el=document.getElementById(id);
+    if(el)el.innerHTML=avatarSVG();
+  }
+}
+
+/* ===============================
+   8. TPO 적합도 판정
+================================ */
+
+function activePieces(){
+  const p=state.pieces;
+  const dress=p.dress.type==="dress";
+
+  return {
+    top:dress?p.dress:p.top,
+    bottom:dress?p.dress:p.bottom,
+    outer:p.outer.type==="none"?null:p.outer,
+    shoes:p.shoes,
+    dress
+  };
+}
+
+function visibleClothes(){
+  const p=activePieces();
+  return [p.top,p.bottom,p.outer,p.shoes].filter(Boolean)
+    .filter((v,i,a)=>a.indexOf(v)===i);
+}
+
+function isWhite(hex){
+  const rgb=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));
+  return rgb.every(v=>v>=225);
+}
+
+function isBright(hex){
+  const rgb=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255);
+  const max=Math.max(...rgb);
+  const min=Math.min(...rgb);
+  const light=(max+min)/2;
+  return light>.73 || (light>.56 && max-min>.48);
+}
+
+function isDark(hex){
+  const name=getColorName(hex);
+  if(["검정","남색"].includes(name))return true;
+
+  const rgb=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));
+  const luminance=.2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];
+  return luminance<112;
+}
+
+function isQuietPattern(piece){
+  return ["plain","vertical"].includes(piece.pattern);
+}
+
+function rule(ok,title,why,tip){
+  return {ok,title,why,tip};
+}
+
+function getRules(){
+  const p=activePieces();
+  const all=visibleClothes();
+  const main=[p.top,p.bottom,p.outer].filter(Boolean);
+  const shoe=p.shoes.type;
+
+  switch(state.mission){
+
+    case 0:{
+      const fullWhite=p.dress?
+        isWhite(p.top.color):
+        isWhite(p.top.color)&&isWhite(p.bottom.color);
+
+      return [
+        rule(!fullWhite,
+          "위아래 모두 흰색인 차림 피하기",
+          "결혼식에서 신부의 특별한 의상을 배려해요.",
+          "흰색을 한 부분에만 쓰거나 다른 색을 함께 선택해 보세요."),
+
+        rule(
+          p.top.type!=="hoodie" &&
+          (p.dress || p.top.type!=="tshirt" || p.outer!==null),
+          "행사 분위기를 고려한 옷차림",
+          "축하하는 자리의 분위기를 존중해요.",
+          "셔츠, 니트, 재킷 등으로 변화를 주어 보세요."),
+
+        rule(
+          !["slippers"].includes(shoe),
+          "지나치게 편한 신발 피하기",
+          "격식을 갖춘 행사의 분위기를 배려해요.",
+          "구두나 단정한 운동화 등으로 바꿔 보세요."),
+
+        rule(
+          main.every(x=>x.pattern!=="dots") ||
+          main.every(x=>!isBright(x.color)),
+          "색과 무늬의 강조 정도 살피기",
+          "행사의 주인공과 전체 분위기를 배려해요.",
+          "강한 색이나 무늬를 한두 곳에만 사용해 보세요.")
+      ];
+    }
+
+    case 1:{
+      return [
+        rule(
+          main.every(x=>isDark(x.color)),
+          "어두운 색 중심으로 코디하기",
+          "고인과 유가족에게 애도의 마음을 표현해요.",
+          "검정, 남색, 짙은 회색 등 차분한 색을 선택해 보세요."),
+
+        rule(
+          main.every(x=>!isBright(x.color)),
+          "밝고 강한 색 피하기",
+          "슬픔을 나누는 자리의 분위기를 존중해요.",
+          "밝은 색 대신 어두운 색으로 바꿔 보세요."),
+
+        rule(
+          main.every(x=>x.pattern==="plain"),
+          "화려한 무늬 피하기",
+          "옷차림보다 조문의 의미에 집중하도록 배려해요.",
+          "무지 옷을 중심으로 코디해 보세요."),
+
+        rule(
+          shoe!=="slippers",
+          "슬리퍼 피하기",
+          "조문 장소의 예절과 분위기를 배려해요.",
+          "단정한 신발을 선택해 보세요."),
+
+        rule(
+          p.dress || p.bottom.type!=="shorts",
+          "짧은 반바지 피하기",
+          "엄숙한 자리의 분위기를 고려해요.",
+          "긴바지나 단정한 길이의 옷을 선택해 보세요.")
+      ];
+    }
+
+    case 2:{
+      return [
+        rule(
+          shoe==="sneakers",
+          "걷기에 알맞은 신발",
+          "야외에서 안전하게 이동하기 위한 선택이에요.",
+          "운동화로 바꿔 보세요."),
+
+        rule(
+          !p.dress && p.bottom.type==="pants",
+          "활동하기 편한 긴바지",
+          "산길을 걷거나 관찰할 때 움직임과 피부 보호를 고려해요.",
+          "긴바지를 선택해 보세요."),
+
+        rule(
+          ["cotton","denim","functional"].includes(p.top.material),
+          "활동에 알맞은 상의 재질",
+          "움직임과 편안함을 생각해요.",
+          "면이나 기능성 소재 등을 선택해 보세요."),
+
+        rule(
+          ["cotton","denim","functional"].includes(p.bottom.material),
+          "활동에 알맞은 하의 재질",
+          "오래 움직이는 야외 수업을 고려해요.",
+          "데님이나 기능성 소재의 바지를 살펴보세요."),
+
+        rule(
+          !all.some(x=>x.material==="silk"),
+          "야외 활동에 불편한 재질 피하기",
+          "활동 중 옷 관리와 움직임의 편리함을 고려해요.",
+          "실크 대신 관리가 편한 소재를 생각해 보세요.")
+      ];
+    }
+
+    case 3:{
+      return [
+        rule(
+          p.dress || ["shirt","knit"].includes(p.top.type)
+          || p.outer?.type==="jacket",
+          "단정한 상의 선택",
+          "청중이 발표 내용에 집중하도록 배려해요.",
+          "셔츠, 니트, 재킷 등을 활용해 보세요."),
+
+        rule(
+          main.every(x=>isQuietPattern(x)),
+          "강한 무늬보다 차분한 무늬",
+          "발표자의 설명과 공약에 주의를 기울이도록 도와요.",
+          "무지나 간결한 줄무늬를 활용해 보세요."),
+
+        rule(
+          !main.some(x=>isBright(x.color)) ||
+          main.some(x=>isDark(x.color)),
+          "색의 균형 고려하기",
+          "색이 발표 내용보다 지나치게 강조되지 않도록 배려해요.",
+          "강한 색과 차분한 색의 균형을 맞춰 보세요."),
+
+        rule(
+          shoe!=="slippers",
+          "발표 장소에 맞는 신발",
+          "공적인 발표 자리의 분위기를 고려해요.",
+          "운동화나 구두 등 움직이기 편한 신발을 선택해 보세요.")
+      ];
+    }
+
+    case 4:{
+      return [
+        rule(
+          true,
+          "나만의 개성 표현하기",
+          "친구와 즐기는 자리에서 자신의 디자인 생각을 자유롭게 표현해요.",
+          ""),
+        rule(
+          true,
+          "디자인 요소 설명하기",
+          "선·색·무늬·재질을 선택한 이유를 나누어 보아요.",
+          "")
+      ];
+    }
+
+    case 5:{
+      return [
+        rule(
+          ["cotton","linen","functional"].includes(p.top.material),
+          "여름에 알맞은 상의 재질",
+          "더운 날씨에서의 편안함을 고려해요.",
+          "면, 마 또는 통기성이 좋은 기능성 소재를 선택해 보세요."),
+
+        rule(
+          ["cotton","linen","functional"].includes(p.bottom.material),
+          "여름에 알맞은 하의 재질",
+          "더운 날씨의 활동을 고려해요.",
+          "면이나 마 소재 등을 사용해 보세요."),
+
+        rule(
+          !all.some(x=>x.material==="wool"),
+          "도톰한 울 니트 피하기",
+          "더운 환경에서의 쾌적함을 고려해요.",
+          "가볍고 통기성 좋은 소재를 생각해 보세요."),
+
+        rule(
+          !all.some(x=>x.material==="leather"),
+          "더운 날씨에 두꺼운 가죽 피하기",
+          "열과 습기가 많은 환경을 고려해요.",
+          "가볍고 편안한 소재를 살펴보세요."),
+
+        rule(
+          shoe!=="slippers" || p.bottom.type==="shorts" || p.dress,
+          "해변 활동에 맞는 신발 생각하기",
+          "젖은 바닥이나 이동할 장소의 안전을 고려해요.",
+          "샌들이나 상황에 적합한 신발을 선택해 보세요.")
+      ];
+    }
+  }
+
+  return [];
+}
+
+function checkTPO(){
+  state.rules=getRules();
+
+  if(state.mission===4){
+    state.score=5;
+  }else{
+    const passed=state.rules.filter(r=>r.ok).length;
+    state.score=Math.max(
+      1,
+      Math.round(5*passed/state.rules.length)
+    );
+  }
+
+  return state.score;
+}
+
+function starString(score){
+  return "★".repeat(score)+"☆".repeat(5-score);
+}
+
+function renderCheck(){
+  checkTPO();
+
+  document.getElementById("checkMission").textContent=
+    MISSIONS[state.mission].icon+" "+
+    MISSIONS[state.mission].title;
+
+  const stars=document.getElementById("stars");
+  stars.textContent=starString(state.score);
+  stars.setAttribute("aria-label",`별 5개 중 ${state.score}개`);
+
+  document.getElementById("scoreText").textContent=
+    `TPO 적합도 ${state.score} / 5`;
+
+  document.getElementById("rules").innerHTML=
+    state.rules.map(r=>`
+      <div class="rule ${r.ok?"pass":"tip"}">
+        <span class="symbol">${r.ok?"✔":"💡"}</span>
+        <div>
+          <strong>${esc(r.title)}</strong>
+          <p>${esc(r.why)}</p>
+          ${!r.ok?
+            `<p style="color:#9a671d">
+              이렇게 바꿔 보면 어때요? ${esc(r.tip)}
+            </p>`:""}
+        </div>
+      </div>
+    `).join("");
+
+  const advice=document.getElementById("checkAdvice");
+
+  if(state.mission===4){
+    advice.innerHTML=
+      "🎉 자유롭게 개성을 표현했어요! 다음 단계에서 디자인 요소를 두 가지 이상 사용하여 코디한 이유를 꼭 설명해 보세요.";
+  }else if(state.score===5){
+    advice.innerHTML=
+      "좋아요! 선택한 상황을 여러 측면에서 고려했어요. 다른 디자인 요소를 활용해도 같은 목적을 달성할 수 있을지 생각해 보세요.";
+  }else{
+    advice.innerHTML=
+      "멋진 탐구 과정이에요! 💡 표시된 부분을 살펴보고, 상황에 맞는 선택을 더해 보세요. 점수보다 선택한 이유를 이해하는 것이 중요해요.";
+  }
+
+  updateAvatars();
+}
+
+/* ===============================
+   9. 설명 자기점검
+================================ */
+
+function designWordCount(text){
+  const categories=[
+    /선|줄무늬|세로|가로|사선|네크라인|칼라|V넥|라운드넥/,
+    /색|빨강|노랑|파랑|주황|분홍|초록|보라|검정|흰색|남색|회색|청록|난색|한색|무채색/,
+    /무늬|패턴|체크|물방울|도트|스트라이프|격자/,
+    /재질|소재|면|린넨|마 소재|울|니트|데님|실크|기능성|가죽/
+  ];
+
+  return categories.filter(regex=>regex.test(text)).length;
+}
+
+function updateChecklist(){
+  const text=document.getElementById("description").value;
+  state.description=text;
+
+  const len=Array.from(text.trim()).length;
+  const count=designWordCount(text);
+
+  const wordOK=count>=2;
+  const lengthOK=len>=30;
+
+  const words=document.getElementById("checkWords");
+  const length=document.getElementById("checkLength");
+
+  words.className="check "+(wordOK?"ok":"wait");
+  length.className="check "+(lengthOK?"ok":"wait");
+
+  words.textContent=
+    (wordOK?"✔":"□")+
+    ` 디자인 요소 2가지 이상 사용 (${count}/2가지)`;
+
+  length.textContent=
+    (lengthOK?"✔":"□")+
+    ` 30자 이상 설명 작성 (${len}/30자)`;
+
+  document.getElementById("charCount").textContent=
+    len+"자";
+
+  document.getElementById("finishBtn").disabled=
+    !(wordOK&&lengthOK);
+}
+
+/* ===============================
+   10. 코디 카드
+================================ */
+
+function renderFinal(){
+  checkTPO();
+  updateAvatars();
+
+  document.getElementById("finalMission").textContent=
+    MISSIONS[state.mission].icon+" "+
+    MISSIONS[state.mission].title;
+
+  document.getElementById("finalStars").textContent=
+    starString(state.score);
+
+  document.getElementById("finalScore").textContent=
+    `${state.score} / 5 · 상황에 따른 옷차림 점검`;
+
+  document.getElementById("finalDescription").textContent=
+    state.description;
+
+  document.getElementById("studentName").value=
+    state.name;
+}
+
+/* ===============================
+   11. PNG 이미지 저장
+   외부 라이브러리 없이 Canvas 사용
+================================ */
+
+function roundRect(ctx,x,y,w,h,r,fill){
+  ctx.beginPath();
+  ctx.roundRect(x,y,w,h,r);
+  ctx.fillStyle=fill;
+  ctx.fill();
+}
+
+function wrapText(ctx,text,maxWidth){
+  const lines=[];
+  const paragraphs=text.split("\n");
+
+  for(const paragraph of paragraphs){
+    if(paragraph.trim()===""){
+      lines.push("");
+      continue;
+    }
+
+    let line="";
+
+    for(const char of Array.from(paragraph)){
+      if(ctx.measureText(line+char).width>maxWidth && line){
+        lines.push(line);
+        line=char;
+      }else{
+        line+=char;
+      }
+    }
+    if(line)lines.push(line);
+  }
+
+  return lines;
+}
+
+function svgToImage(svgText){
+  return new Promise((resolve,reject)=>{
+    const blob=new Blob([svgText],{
+      type:"image/svg+xml;charset=utf-8"
+    });
+
+    const url=URL.createObjectURL(blob);
+    const image=new Image();
+
+    image.onload=()=>{
+      URL.revokeObjectURL(url);
+      resolve(image);
+    };
+
+    image.onerror=()=>{
+      URL.revokeObjectURL(url);
+      reject(new Error("아바타 이미지를 불러오지 못했어요."));
+    };
+
+    image.src=url;
+  });
+}
+
+async function savePNG(){
+  const btn=document.querySelector(
+    '#screen7 button[onclick="savePNG()"]'
+  );
+
+  const oldText=btn.textContent;
+  btn.disabled=true;
+  btn.textContent="이미지 만드는 중...";
+
+  try{
+    if(document.fonts && document.fonts.ready){
+      await document.fonts.ready;
+    }
+
+    const width=1000;
+    const padding=62;
+    const ctxCanvas=document.createElement("canvas");
+    ctxCanvas.width=width;
+
+    const temp=ctxCanvas.getContext("2d");
+
+    const name=state.name.trim()||"이름 미입력";
+    const mission=MISSIONS[state.mission];
+
+    temp.font='28px "Noto Sans KR",sans-serif';
+
+    const descLines=wrapText(
+      temp,state.description,475
+    );
+
+    const contentHeight=Math.max(
+      770,
+      530+descLines.length*43
+    );
+
+    const height=Math.min(3500,contentHeight+175);
+
+    ctxCanvas.height=height;
+
+    const ctx=ctxCanvas.getContext("2d");
+
+    ctx.fillStyle="#f5f1ff";
+    ctx.fillRect(0,0,width,height);
+
+    roundRect(
+      ctx,35,35,width-70,height-70,30,"#ffffff"
+    );
+
+    const gradient=ctx.createLinearGradient(55,55,930,230);
+    gradient.addColorStop(0,"#e9e3ff");
+    gradient.addColorStop(1,"#ffeaf3");
+
+    roundRect(ctx,60,60,880,190,22,gradient);
+
+    ctx.fillStyle="#6650bc";
+    ctx.font='bold 24px "Noto Sans KR",sans-serif';
+    ctx.fillText("MY TPO STYLE CARD",95,110);
+
+    ctx.fillStyle="#28324a";
+    ctx.font='bold 43px "Noto Sans KR",sans-serif';
+    ctx.fillText("나의 코디 디자인",95,174);
+
+    ctx.font='25px "Noto Sans KR",sans-serif';
+    ctx.fillText(mission.title,95,219);
+
+    roundRect(ctx,65,280,365,610,24,"#f4f0ff");
+
+    const svg=avatarSVG();
+    const image=await svgToImage(svg);
+
+    ctx.drawImage(image,65,290,365,580);
+
+    const x=465;
+
+    ctx.fillStyle="#7764d9";
+    ctx.font='bold 22px "Noto Sans KR",sans-serif';
+    ctx.fillText("DESIGNER",x,328);
+
+    ctx.fillStyle="#28324a";
+    ctx.font='bold 32px "Noto Sans KR",sans-serif';
+    ctx.fillText(name,x,376);
+
+    ctx.fillStyle="#7764d9";
+    ctx.font='bold 22px "Noto Sans KR",sans-serif';
+    ctx.fillText("TPO CHECK",x,445);
+
+    ctx.fillStyle="#d69b31";
+    ctx.font='35px sans-serif';
+    ctx.fillText(starString(state.score),x,497);
+
+    ctx.fillStyle="#68748d";
+    ctx.font='22px "Noto Sans KR",sans-serif';
+    ctx.fillText(
+      `TPO 적합도 ${state.score} / 5`,
+      x,538
+    );
+
+    ctx.fillStyle="#7764d9";
+    ctx.font='bold 22px "Noto Sans KR",sans-serif';
+    ctx.fillText("MY STYLE STORY",x,615);
+
+    ctx.fillStyle="#394158";
+    ctx.font='23px "Noto Sans KR",sans-serif';
+
+    let y=665;
+    const lineHeight=39;
+
+    for(const line of descLines){
+      if(y>height-125)break;
+      ctx.fillText(line,x,y);
+      y+=lineHeight;
+    }
+
+    ctx.fillStyle="#8b87a3";
+    ctx.font='19px "Noto Sans KR",sans-serif';
+    ctx.fillText(
+      "선 · 색 · 무늬 · 재질로 표현한 나의 선택",
+      padding,height-95
+    );
+
+    const png=ctxCanvas.toDataURL("image/png");
+
+    const a=document.createElement("a");
+    const safeName=name.replace(/[\\/:*?"<>|]/g,"_");
+
+    a.href=png;
+    a.download=`TPO_코디카드_${safeName}.png`;
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+  }catch(error){
+    console.error(error);
+    alert(
+      "이미지 저장 중 문제가 발생했어요. "+
+      "크롬 브라우저에서 다시 시도하거나 화면을 캡처해 주세요."
+    );
+  }finally{
+    btn.disabled=false;
+    btn.textContent=oldText;
+  }
+}
+
+/* ===============================
+   12. 처음부터 다시
+================================ */
+
+function resetAll(){
+  state=initialState();
+
+  document.getElementById("description").value="";
+  document.getElementById("studentName").value="";
+
+  go(1);
+}
+
+/* ===============================
+   13. 초기 실행
+================================ */
+
+renderSteps();
+renderAvatarEditor();
+renderMissions();
+updateAvatars();
+
+</script>
+</body>
+</html>
